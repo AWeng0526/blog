@@ -201,7 +201,153 @@ lex的基本语法如下
 > ./exam
 
 程序运行后可以通过键盘输入需要识别的单词,识别结果将输出在屏幕
-![8WRkXd.png](https://s1.ax1x.com/2020/03/21/8WRkXd.png)
+![8WXnUS.png](https://s1.ax1x.com/2020/03/21/8WXnUS.png)
 
 当然,你也可以使用如下命令指定输入文件和输出文件
 > ./exam [inputFile] [outputfile]
+
+##### 状态
+在翻译规则段还可以定义状态的转移,使用%s 状态名 可以定义新状态.
+默认状态为INITIAL
+状态转移的语法如下:
+<状态一>条件 <状态二>
+例如:
+```
+ /*定义段*/
+ %%
+ ......
+ /*声明状态*/
+ %s COMMENT
+ %%
+ /*词法规则段*/
+<INITIAL>"/*"		{printf("begin comment\n");BEGIN COMMENT;}
+<COMMENT>"*/"		{printf("end comment,begin inital\n");BEGIN INITIAL;}
+<COMMENT>.|\n		{;}
+<INITIAL>"//"		{printf("begin comment\n");BEGIN COMMENT2;}
+......
+```
+
+下面给出一份示例代码
+```
+/* 把注释去掉 */
+ 
+%{
+ 
+#include <stdio.h> 
+#define LT					1
+#define	LE					2
+#define GT					3
+#define	GE					4
+#define	EQ					5
+#define NE					6
+ 
+#define	KEYWORD					19
+#define ID          20
+#define NUMBER      21
+#define KEYSYMBOL       22
+ 
+#define NEWLINE     23
+#define ERRORCHAR   24
+#define ADD                       25
+#define  DEC                         26
+#define  MUL                         27
+#define  DIV                        28
+ 
+ 
+%}
+ 
+delim		[ \t \n]
+ws			{delim}+
+letter	[A-Za-z_]
+digit		[0-9]
+id			{letter}({letter}|{digit})*
+number	{digit}+(\.{digit}+)?(E[+-]?{digit}+)?
+keyword int|char|double|float|short|do|while|for|return
+keysymbol <|<=|>|>=|=|==|+|-|*|/|%|&|\||^|!|&&|\|\|
+pointer {keyword}(\*)* 
+ 
+ /* 状态（或条件）定义可以定义在这里 
+ * INITIAL是一个默认的状态，不需要定义
+ */
+%s COMMENT
+%s COMMENT2
+%%
+ 
+<INITIAL>"/*"		{printf("(begin comment)\n");BEGIN COMMENT;}
+<COMMENT>"*/"		{printf("(end comment,begin inital)\n");BEGIN INITIAL;}
+<COMMENT>.|\n		{;}
+<INITIAL>"//"		{printf("(begin comment)\n");BEGIN COMMENT2;}
+<COMMENT2>\n		{printf("(end comment,begin inital)\n");BEGIN INITIAL;}
+<COMMENT2>.			{;}
+ 
+ /* ECHO是一个宏，相当于 fprintf(yyout, "%s", yytext)*/
+ 
+<INITIAL>{ws}	          {;}
+<INITIAL>{keyword}		  {return (KEYWORD);}
+<INITIAL>{id}	          {return (ID);}
+<INITIAL>{number}	      {return (NUMBER);}
+<INITIAL>"<"	          {return (KEYSYMBOL);}
+<INITIAL>"<="	          {return (KEYSYMBOL);}
+<INITIAL>"="	          {return (KEYSYMBOL);}
+<INITIAL>"!="	          {return (KEYSYMBOL);}
+<INITIAL>">"	          {return (KEYSYMBOL);}
+<INITIAL>">="	          {return (KEYSYMBOL);}
+<INITIAL>"("	          {return (KEYSYMBOL);}
+<INITIAL>")"	          {return (KEYSYMBOL);}
+<INITIAL>"{"	          {return (KEYSYMBOL);}
+<INITIAL>"}"	          {return (KEYSYMBOL);}
+<INITIAL>"+"	          {return (KEYSYMBOL);}
+<INITIAL>"-"	          {return (KEYSYMBOL);}
+<INITIAL>"*"	          {return (KEYSYMBOL);}
+<INITIAL>"/"	          {return (KEYSYMBOL);}
+<INITIAL>";"	          {return (KEYSYMBOL);}
+ 
+<INITIAL>.				  {return ERRORCHAR;}
+ 
+ 
+%%
+ 
+int yywrap (){
+  return 1;
+}
+ 
+void writeout(int c){
+  switch(c){
+  	case ERRORCHAR: fprintf(yyout, "(ERRORCHAR, \"%s\") ", yytext);break;
+  	case KEYSYMBOL: fprintf(yyout, "(KEYSYMBOL, \"%s\") ", yytext);break;  	  
+    case KEYWORD: fprintf(yyout, "(KEYWORD, \"%s\") ", yytext);break;
+    case NUMBER: fprintf(yyout, "(NUM, \"%s\") ", yytext);break;
+    case ID: fprintf(yyout, "(ID, \"%s\") ", yytext);break;
+    case NEWLINE: fprintf(yyout, "\n");break;
+    default:break;
+  }
+  return;
+}
+ 
+ 
+int main (int argc, char ** argv){
+	int c,j=0;
+	if (argc>=2){
+	  if ((yyin = fopen(argv[1], "r")) == NULL){
+	    printf("Can't open file %s\n", argv[1]);
+	    return 1;
+	  }
+	  if (argc>=3){
+	    yyout=fopen(argv[2], "w");
+	  }
+	}
+ 
+	while (c = yylex()){
+		writeout(c);
+    	writeout(NEWLINE);
+	}
+	if(argc>=2){
+	  fclose(yyin);
+	  if (argc>=3) fclose(yyout);
+	}
+	return 0;
+}
+```
+
+按照前文所述,运行代码后可得到结果
+![8Wz4Ff.png](https://s1.ax1x.com/2020/03/21/8Wz4Ff.png)
