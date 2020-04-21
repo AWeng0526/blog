@@ -44,6 +44,18 @@ categories: [技术,]
 - 不支持递归定义正规式,但内置了digit和letter两个正规式.可以用{digit}/{letter}调用.
 - 更多规范见下文.
 
+示例
+
+```textplain
+NUMBER {digit}+(.{digit}+|#)(E(\+|-|#){digit}+|#)
+ID {letter}({letter}|{digit})*
+BRACKET \(|\)|[|]|{|}
+SEPARATOR ,|;
+OPERATOR \+|-|\*|/|&|\||!|=|>=|<=|>|<|==|!=
+WHITESPACE (\s|\t|\r)+
+NEWLINE (\n)+
+```
+
 #### 字母表
 
 字母表的定义位于work/wengyuxian/util/Alphabets.java中,可根据需求添加/删减元素
