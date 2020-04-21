@@ -47,13 +47,13 @@ categories: [技术,]
 示例
 
 ```textplain
-NUMBER {digit}+(.{digit}+|#)(E(\+|-|#){digit}+|#)
-ID {letter}({letter}|{digit})*
-BRACKET \(|\)|[|]|{|}
-SEPARATOR ,|;
-OPERATOR \+|-|\*|/|&|\||!|=|>=|<=|>|<|==|!=
-WHITESPACE (\s|\t|\r)+
-NEWLINE (\n)+
+NUMBER          {digit}+(.{digit}+|#)(E(\+|-|#){digit}+|#)
+ID              {letter}({letter}|{digit})*
+BRACKET         \(|\)|[|]|{|}
+SEPARATOR       ,|;
+OPERATOR        \+|-|\*|/|&|\||!|=|>=|<=|>|<|==|!=
+WHITESPACE      (\s|\t|\r)+
+NEWLINE         (\n)+
 ```
 
 #### 字母表
@@ -126,10 +126,10 @@ NEWLINE (\n)+
 
 ## 思路
 
-### 正规式->NFA
+### 汤普森算法
 
 &emsp; &emsp; 对于一个正规式,我们可以将其看作一个表达式.表达式中的操作数为字母表中的字符,表达式中的操作符包括.(连接),|(或运算),*(星闭包),+(正闭包)以及用于表达优先级的().
-每个操作数可以看做单字符的汤普森表示,例如a|b可以表达为:
+每个操作数可以看做由汤普森算法得到的NFA,例如a|b可以表达为:
 
 操作数:
 
