@@ -14,7 +14,7 @@
   </a>
   <br>
   <a href="https://github.com/Shen-Yu/hexo-theme-ayer/releases" target="_blank" rel="noopener noreferrer">
-    <img alt="GitHub release" src="https://img.shields.io/badge/release-v2.0-blue.svg">
+    <img alt="GitHub release" src="https://img.shields.io/badge/release-v2.1-blue.svg">
   </a> 
  <img alt="language" src="https://img.shields.io/badge/language-ejs--stylus-orange.svg">
   <a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener noreferrer">
@@ -153,6 +153,7 @@ copyright_type: 2
 search: true
 
 # RSS
+# leave it empty if you dont' need
 rss: /atom.xml
 
 # DarkMode
