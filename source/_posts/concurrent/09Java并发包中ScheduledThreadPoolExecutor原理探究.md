@@ -18,7 +18,7 @@ categories: [技术,]
 
 ScheduledThreadPoolExecutor时一个可以在指定一定延迟时间后或者定时进行任务调度执行的线程池。
 
-![](images/13.png)
+![](images/concurrent/13.png)
 
 ScheduledThreadPoolExecutor继承了ThreadPoolExecutor并实现了ScheduledExecutorService接口。
 

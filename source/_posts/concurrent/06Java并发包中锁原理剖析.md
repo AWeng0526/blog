@@ -121,7 +121,7 @@ AbstractQueuedSynchronizer抽象同步队列简称AQS，是实现同步器的基
     
 以下为AQS的类结构图：
 
-![](images/07.png)
+![](images/concurrent/07.png)
 
 AQS是一个FIFO的双向队列，内部通过head和tail两个节点来对队列进行维护。
 
@@ -427,7 +427,7 @@ public static void main(String[] args) {
 
 ### 类图结构
 
-![](images/08.png)
+![](images/concurrent/08.png)
 
 构造函数如下：
 
@@ -665,7 +665,7 @@ protected final boolean tryRelease(int releases) {
 
 ### 类图结构
 
-![](images/09.png)
+![](images/concurrent/09.png)
 
 读写锁内部维护了一个ReadLock和一个WriteLock，它们依赖Sync实现具体功能。而Sync继承自AQS，并且也提供了公平与非公平的实现。下面只介绍非公平读写锁的实现。
 

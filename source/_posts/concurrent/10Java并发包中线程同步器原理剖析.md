@@ -98,7 +98,7 @@ CountDownLatch相对于join方法的优点大致有两点：
 
 ### 类图结构
 
-![](images/14.png)
+![](images/concurrent/14.png)
 
 由图可知，CountDownLatch是基于AQS实现的。
 
@@ -273,7 +273,7 @@ public static void main(String[] args) {
 
 ### 类图结构
 
-![](images/15.png)
+![](images/concurrent/15.png)
 
 CyclicBarrier基于ReentrantLock实现，本质上还是基于AQS的。parties用于记录线程个数，表示多少个线程调用await方法后，所有线程才会冲破屏障往下运行。count一开始等于parties，当由线程调用await方法时会递减1，当count变成0时到达屏障点，所有调用await的线程会一起往下执行，此时要重置CyclicBarrier，再次令count=parties。
 
@@ -477,7 +477,7 @@ public static void main(String[] args) throws InterruptedException {
 
 ### 类图结构
 
-![](images/16.png)
+![](images/concurrent/16.png)
 
 由图可知，Semaphore还是使用AQS实现的，并且可以选取公平性策略（默认为非公平性的）。
 

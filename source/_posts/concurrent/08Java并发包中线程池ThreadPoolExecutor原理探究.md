@@ -18,7 +18,7 @@ categories: [技术,]
 
 ## 类图结构
 
-![](images/12.png)
+![](images/concurrent/12.png)
 
 如图所示，Executors是个工具类，用来提供不同特性的线程池。ThreadPoolExecutor中的ctl是一个原子变量，用来记录线程池状态和线程池中的线程个数，类似于ReentrantReadWriteLock中使用一个变量来保存两种信息。
 

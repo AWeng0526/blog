@@ -107,7 +107,7 @@ AtomicLong使用CAS非阻塞算法，性能比使用synchronized等的阻塞算�
 
 ### 原理
 
-![](images/03.png)
+![](images/concurrent/03.png)
 
 如图，LongAdder内部维护了多个Cell，每个Cell内部有一个初始值为0的long类型变量，这样，在同等并发下，对单个变量的争夺会变少。此外，多个线程争夺同一个变量失败时，会到另一个Cell上去尝试，增加了重试成功的可能性。当LongAdder要获取当前值时，将所有Cell的值于base相加返回即可。
 
