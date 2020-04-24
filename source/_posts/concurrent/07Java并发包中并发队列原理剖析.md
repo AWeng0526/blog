@@ -5,24 +5,6 @@ tags: [Java,并发]
 categories: [技术,]
 ---
 
-## 目录
-
-- [PriorityBlockingQueue](#priorityblockingqueue)
-    - [类图结构](#类图结构)
-    - [原理讲解](#原理讲解)
-        - [boolean offer()](#boolean-offer)
-        - [E poll()](#e-poll)
-        - [void put(E e)](#void-pute-e)
-        - [E take()](#e-take)
-- [DelayQueue](#delayqueue)
-    - [类图结构](#类图结构-1)
-    - [原理讲解](#原理讲解-1)
-        - [boolean offer(E e)](#boolean-offere-e)
-        - [E take()](#e-take-1)
-        - [E poll()](#e-poll-1)
-        - [int size()](#int-size)
-- [更多](#更多)
-
 LinkedBlockingQueue和ArrayBlockingQueue比较简单，不进行讲解了。下面只介绍PriorityBlockingQueue和DelayQueue。
 
 ## PriorityBlockingQueue
@@ -31,7 +13,7 @@ PriorityBlockingQueue是带优先级的无界阻塞队列，每次出队都返�
 
 ### 类图结构
 
-![](images/concurrent/10.png)
+![](/images/concurrent/10.png)
 
 PriorityBlockingQueue内部有一个数组queue，用来存放队列元素。allocationSpinLock是个自旋锁，通过CAS操作来保证同时只有一个线程可以扩容队列，状态为0或1。
 
@@ -262,7 +244,7 @@ DelayQueue并发队列是一个无界阻塞延迟队列，队列中的每一个�
 
 ### 类图结构
 
-![](images/concurrent/11.png)
+![](/images/concurrent/11.png)
 
 DelayQueue内部使用PriorityQueue存放数据，使用ReentrantLock实现线程同步。
 队列里的元素要实现Delayed接口（Delayed接口继承了Comparable接口），用以得到过期时间并进行过期时间的比较。

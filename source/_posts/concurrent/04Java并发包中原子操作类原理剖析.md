@@ -5,18 +5,6 @@ tags: [Java,并发]
 categories: [技术,]
 ---
 
-## 目录
-
-- [原子变量操作类](#原子变量操作类)
-    - [递增和递减操作代码](#递增和递减操作代码)
-    - [compareAndSet方法](#compareandset方法)
-    - [AtomicLong使用示例](#atomiclong使用示例)
-- [JDK8中新增的原子操作类LongAdder](#jdk8中新增的原子操作类longadder)
-    - [原理](#原理)
-    - [源码分析](#源码分析)
-- [LongAccumulator](#longaccumulator)
-- [更多](#更多)
-
 ## 原子变量操作类
 
 JUC包中有AtomicInteger、AtomicLong和AtomicBoolean等原子性操作类，它们原理类似，下面以AtomicLong为例进行讲解。
@@ -107,7 +95,7 @@ AtomicLong使用CAS非阻塞算法，性能比使用synchronized等的阻塞算�
 
 ### 原理
 
-![](images/concurrent/03.png)
+![](/images/concurrent/03.png)
 
 如图，LongAdder内部维护了多个Cell，每个Cell内部有一个初始值为0的long类型变量，这样，在同等并发下，对单个变量的争夺会变少。此外，多个线程争夺同一个变量失败时，会到另一个Cell上去尝试，增加了重试成功的可能性。当LongAdder要获取当前值时，将所有Cell的值于base相加返回即可。
 

@@ -5,20 +5,9 @@ tags: [Java,并发]
 categories: [技术,]
 ---
 
-## 目录
-
-- [类图结构](#类图结构)
-- [源码分析](#源码分析)
-    - [void execute(Runnable command)](#void-executerunnable-command)
-    - [Worker的执行](#worker的执行)
-    - [void shutdown()](#void-shutdown)
-    - [List&lt;Runnable&gt; shutdownNow()](#listltrunnablegt-shutdownnow)
-    - [boolean awaitTermination(long timeout, TimeUnit unit)](#boolean-awaitterminationlong-timeout-timeunit-unit)
-- [更多](#更多)
-
 ## 类图结构
 
-![](images/concurrent/12.png)
+![](/images/concurrent/12.png)
 
 如图所示，Executors是个工具类，用来提供不同特性的线程池。ThreadPoolExecutor中的ctl是一个原子变量，用来记录线程池状态和线程池中的线程个数，类似于ReentrantReadWriteLock中使用一个变量来保存两种信息。
 

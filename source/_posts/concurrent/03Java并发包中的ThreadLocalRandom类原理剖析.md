@@ -5,17 +5,6 @@ tags: [Java,并发]
 categories: [技术,]
 ---
 
-## 目录
-
-- [Random类及其局限性](#random类及其局限性)
-    - [示例](#示例)
-    - [分析](#分析)
-- [ThreadLocalRandom](#threadlocalrandom)
-    - [示例](#示例-1)
-    - [原理](#原理)
-    - [源码分析](#源码分析)
-- [更多](#更多)
-
 ## Random类及其局限性
 
 一般情况下，我们都会使用java.util.Random来生成随机数（Math.random()也是使用Random实例生成随机数）。

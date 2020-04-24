@@ -5,34 +5,6 @@ tags: [Java,并发]
 categories: [技术,]
 ---
 
-## 目录
-
-- [CountDownLatch原理剖析](#countdownlatch原理剖析)
-    - [示例](#示例)
-    - [类图结构](#类图结构)
-    - [源码解析](#源码解析)
-        - [void await()](#void-await)
-        - [boolean await(long timeout, TimeUnit unit)](#boolean-awaitlong-timeout-timeunit-unit)
-        - [void countDown()](#void-countdown)
-- [CyclicBarrier原理探究](#cyclicbarrier原理探究)
-    - [示例](#示例-1)
-    - [类图结构](#类图结构-1)
-    - [源码分析](#源码分析)
-        - [int await()](#int-await)
-        - [boolean await(long timeout, TimeUnit unit)](#boolean-awaitlong-timeout-timeunit-unit-1)
-        - [int dowait(boolean timed, long nanos)](#int-dowaitboolean-timed-long-nanos)
-- [Semaphore原理探究](#semaphore原理探究)
-    - [示例](#示例-2)
-    - [类图结构](#类图结构-2)
-    - [源码解析](#源码解析-1)
-        - [void acquire()](#void-acquire)
-        - [void acquire(int permits)](#void-acquireint-permits)
-        - [void acquireUninterruptibly()](#void-acquireuninterruptibly)
-        - [void acquireUninterruptibly(int permits)](#void-acquireuninterruptiblyint-permits)
-        - [void release()](#void-release)
-        - [void release(int permits)](#void-releaseint-permits)
-- [更多](#更多)
-
 ## CountDownLatch原理剖析
 
 日常开发中经常遇到一个线程需要等待一些线程都结束后才能继续向下运行的场景，在CountDownLatch出现之前通常使用join方法来实现，但join方法不够灵活，所以开发了CountDownLatch。
@@ -98,7 +70,7 @@ CountDownLatch相对于join方法的优点大致有两点：
 
 ### 类图结构
 
-![](images/concurrent/14.png)
+![](/images/concurrent/14.png)
 
 由图可知，CountDownLatch是基于AQS实现的。
 
@@ -273,7 +245,7 @@ public static void main(String[] args) {
 
 ### 类图结构
 
-![](images/concurrent/15.png)
+![](/images/concurrent/15.png)
 
 CyclicBarrier基于ReentrantLock实现，本质上还是基于AQS的。parties用于记录线程个数，表示多少个线程调用await方法后，所有线程才会冲破屏障往下运行。count一开始等于parties，当由线程调用await方法时会递减1，当count变成0时到达屏障点，所有调用await的线程会一起往下执行，此时要重置CyclicBarrier，再次令count=parties。
 
@@ -477,7 +449,7 @@ public static void main(String[] args) throws InterruptedException {
 
 ### 类图结构
 
-![](images/concurrent/16.png)
+![](/images/concurrent/16.png)
 
 由图可知，Semaphore还是使用AQS实现的，并且可以选取公平性策略（默认为非公平性的）。
 

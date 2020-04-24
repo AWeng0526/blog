@@ -5,18 +5,6 @@ tags: [Java,并发]
 categories: [技术,]
 ---
 
-## 目录
-
-- [介绍](#介绍)
-- [源码解析](#源码解析)
-    - [初始化](#初始化)
-    - [添加元素](#添加元素)
-    - [获取指定位置元素](#获取指定位置元素)
-    - [修改指定元素](#修改指定元素)
-    - [删除元素](#删除元素)
-    - [弱一致性的迭代器](#弱一致性的迭代器)
-- [更多](#更多)
-
 ## 介绍
 
 JUC包中的并发List只有CopyOnWriteArrayList。CopyOnWriteArrayList是一个线程安全的ArrayList，使用了写时复制策略，对其进行的修改操作都是在底层的一个复制的数组上进行的。
@@ -113,11 +101,11 @@ final Object[] getArray() {
 
 假设某一时刻CopyOnWriteArrayList中有1，2，3中三个元素，如下图所示：
 
-![](images/concurrent/04.png)
+![](/images/concurrent/04.png)
 
 由于整个过程未加锁，可能导致一个线程x在获取array后，另一个线程y进行了remove操作，假设要删除的元素为3。remove操作首先会获取独占锁，然后进行写时复制操作，也就是复制一份当前array数组，然后再复制的数组里面删除线程x通过get方法要访问的元素3，之后让array指向复制的数组。而这时线程x仍持有对原来的array的引用，导致虽然线程y删除了元素3，线程x仍能获得3这个元素，如图：
 
-![](images/concurrent/05.png)
+![](/images/concurrent/05.png)
 
 ### 修改指定元素
 
@@ -261,7 +249,7 @@ public class CopyListTest {
 
 输出如图：
 
-![](images/concurrent/06.png)
+![](/images/concurrent/06.png)
 
 由上可知，对list的修改对于首次迭代是不可见的，这即是弱一致性的体现。
 

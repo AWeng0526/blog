@@ -5,20 +5,11 @@ tags: [Java,并发]
 categories: [技术,]
 ---
 
-## 目录
-
-- [类图结构](#类图结构)
-- [源码分析](#源码分析)
-    - [schedule(Runnable command, long delay, TimeUnit unit)](#schedulerunnable-command-long-delay-timeunit-unit)
-    - [scheduleWithFixedDelay(Runnable command,　long initialDelay,　long delay,　TimeUnit unit)](#schedulewithfixeddelayrunnable-command　long-initialdelay　long-delay　timeunit-unit)
-    - [scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit)](#scheduleatfixedraterunnable-command-long-initialdelay-long-period-timeunit-unit)
-- [更多](#更多)
-
 ## 类图结构
 
 ScheduledThreadPoolExecutor时一个可以在指定一定延迟时间后或者定时进行任务调度执行的线程池。
 
-![](images/concurrent/13.png)
+![](/images/concurrent/13.png)
 
 ScheduledThreadPoolExecutor继承了ThreadPoolExecutor并实现了ScheduledExecutorService接口。
 
