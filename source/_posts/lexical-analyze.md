@@ -1,7 +1,7 @@
 ---
 title: 词法分析的java实现
 date: 2020-04-01 19:55:24
-tags: [词法分析,编译原理,java]
+tags: [词法分析,编译原理,Java]
 categories: [技术,]
 ---
 
