@@ -1,11 +1,13 @@
 ---
-title: 第7章 Java并发包中并发队列原理剖析
+title: 第七章 Java并发包中并发队列原理剖析
 date: 2020-04-24 11:52:15
 tags: [Java,并发]
 categories: [技术,]
 ---
 
 LinkedBlockingQueue和ArrayBlockingQueue比较简单，不进行讲解了。下面只介绍PriorityBlockingQueue和DelayQueue。
+
+<!---more--->
 
 ## PriorityBlockingQueue
 

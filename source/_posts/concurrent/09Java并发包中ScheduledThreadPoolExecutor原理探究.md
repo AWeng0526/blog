@@ -1,5 +1,5 @@
 ---
-title: 第9章 Java并发包中ScheduledThreadPoolExecutor原理探究
+title: 第九章 Java并发包中ScheduledThreadPoolExecutor原理探究
 date: 2020-04-24 11:52:22
 tags: [Java,并发]
 categories: [技术,]
@@ -8,6 +8,8 @@ categories: [技术,]
 ## 类图结构
 
 ScheduledThreadPoolExecutor时一个可以在指定一定延迟时间后或者定时进行任务调度执行的线程池。
+
+<!---more--->
 
 ![](/images/concurrent/13.png)
 

@@ -1,5 +1,5 @@
 ---
-title: 第5章 Java并发包中并发List源码剖析
+title: 第五章 Java并发包中并发List源码剖析
 date: 2020-04-24 11:52:10
 tags: [Java,并发]
 categories: [技术,]
@@ -8,6 +8,8 @@ categories: [技术,]
 ## 介绍
 
 JUC包中的并发List只有CopyOnWriteArrayList。CopyOnWriteArrayList是一个线程安全的ArrayList，使用了写时复制策略，对其进行的修改操作都是在底层的一个复制的数组上进行的。
+
+<!---more--->
 
 ## 源码解析
 

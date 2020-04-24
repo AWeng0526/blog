@@ -1,5 +1,5 @@
 ---
-title: 第4章 Java并发包中原子操作类原理剖析
+title: 第四章 Java并发包中原子操作类原理剖析
 date: 2020-04-24 11:52:06
 tags: [Java,并发]
 categories: [技术,]
@@ -8,6 +8,8 @@ categories: [技术,]
 ## 原子变量操作类
 
 JUC包中有AtomicInteger、AtomicLong和AtomicBoolean等原子性操作类，它们原理类似，下面以AtomicLong为例进行讲解。
+
+<!---more--->
 
 ### 递增和递减操作代码
 

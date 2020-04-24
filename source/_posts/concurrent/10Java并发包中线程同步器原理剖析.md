@@ -1,5 +1,5 @@
 ---
-title: 第10章 Java并发包中线程同步器原理剖析
+title: 第十章 Java并发包中线程同步器原理剖析
 date: 2020-04-24 11:52:25
 tags: [Java,并发]
 categories: [技术,]
@@ -8,6 +8,8 @@ categories: [技术,]
 ## CountDownLatch原理剖析
 
 日常开发中经常遇到一个线程需要等待一些线程都结束后才能继续向下运行的场景，在CountDownLatch出现之前通常使用join方法来实现，但join方法不够灵活，所以开发了CountDownLatch。
+
+<!---more--->
 
 ### 示例
 

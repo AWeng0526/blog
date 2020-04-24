@@ -1,5 +1,5 @@
 ---
-title: 第6章 Java并发包中锁原理剖析
+title: 第六章 Java并发包中锁原理剖析
 date: 2020-04-24 11:52:12
 tags: [Java,并发]
 categories: [技术,]
@@ -12,6 +12,8 @@ LockSupport是创建锁和其他同步类的基础。
 LockSupport类与每个使用它的线程都会关联一个许可证，默认情况下调用LockSupport类的方法的线程是不持有许可证的。
 
 下面介绍LockSupport类中的几个主要函数。
+
+<!---more--->
 
 ### 1. void park()
 

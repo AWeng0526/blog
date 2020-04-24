@@ -1,5 +1,5 @@
 ---
-title: 第3章 Java并发包中的ThreadLocalRandom类原理剖析
+title: 第三章 Java并发包中的ThreadLocalRandom类原理剖析
 date: 2020-04-24 11:52:03
 tags: [Java,并发]
 categories: [技术,]
@@ -8,6 +8,8 @@ categories: [技术,]
 ## Random类及其局限性
 
 一般情况下，我们都会使用java.util.Random来生成随机数（Math.random()也是使用Random实例生成随机数）。
+
+<!---more--->
 
 ### 示例
 

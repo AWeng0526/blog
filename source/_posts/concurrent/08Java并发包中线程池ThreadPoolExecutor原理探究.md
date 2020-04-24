@@ -1,5 +1,5 @@
 ---
-title: 第8章 Java并发包中线程池ThreadPoolExecutor原理探究
+title: 第八章 Java并发包中线程池ThreadPoolExecutor原理探究
 date: 2020-04-24 11:52:20
 tags: [Java,并发]
 categories: [技术,]
@@ -8,6 +8,8 @@ categories: [技术,]
 ## 类图结构
 
 ![](/images/concurrent/12.png)
+
+<!---more--->
 
 如图所示，Executors是个工具类，用来提供不同特性的线程池。ThreadPoolExecutor中的ctl是一个原子变量，用来记录线程池状态和线程池中的线程个数，类似于ReentrantReadWriteLock中使用一个变量来保存两种信息。
 
