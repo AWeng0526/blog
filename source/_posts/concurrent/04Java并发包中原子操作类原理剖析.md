@@ -351,6 +351,3 @@ a.cas(v = a.value, ((fn == null) ? v + x :fn.applyAsLong(v, x)))
 ```
 
 LongAdder的add()方法中调用longAccumulate()方法时传入的是null，而LongAccumulator的accumulate()方法传入的是this.function，即自定义的加法函数。
-
-## 更多
-

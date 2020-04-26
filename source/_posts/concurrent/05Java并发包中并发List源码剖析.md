@@ -255,5 +255,5 @@ public class CopyListTest {
 
 由上可知，对list的修改对于首次迭代是不可见的，这即是弱一致性的体现。
 
-## 更多
+
 

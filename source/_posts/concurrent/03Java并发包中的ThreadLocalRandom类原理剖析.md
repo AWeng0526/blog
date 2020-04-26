@@ -140,6 +140,3 @@ final long nextSeed() {
 }
 ```
 如上，首先调用nextSeed()根据当前Thread中的threadLocalRandomSeed变量生成并存入新种子，然后经过特定算法得出了nextInt的值。  
-
-## 更多
-
