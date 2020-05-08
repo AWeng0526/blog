@@ -99,7 +99,7 @@ NEWLINE         (\n)+
 
 #### 字母表
 
-&emsp; &emsp;字母表的定义位于work/wengyuxian/util/Alphabets.java中,可根据需求添加/删减元素
+&emsp; &emsp;字母表的定义位于work/wengyuxian/util/Alphabets.java中,可根据需求添加/删减元素.
 
 ```java
     // 字母表
@@ -189,7 +189,7 @@ NEWLINE         (\n)+
 
 #### 屏蔽项
 
-&emsp; &emsp;在work/wengyuxian/util/Alphabets.java中有这么一段代码
+&emsp; &emsp;在work/wengyuxian/util/Alphabets.java中有这么一段代码:
 
 ```java
 public static HashSet<String> shield = new HashSet<>(Arrays.asList("WHITESPACE", "NEWLINE"));
@@ -197,7 +197,7 @@ public static HashSet<String> shield = new HashSet<>(Arrays.asList("WHITESPACE",
 
 &emsp; &emsp;其作用为:当识别出WHITESPACE(空格)或NEWLINE(换行)的TOKEN时,不记录至output.txt.可根据需求添加/删除.
 
-&emsp;&emsp;假设有两个字符串"NFA.states"和"NFA . states",如果忽略空格我们会得到两组一样的记号流:ID DOT ID.但显然后者语法上有错误,这时候我们希望交付给语法分析器这样一个记号流:ID WHITESPACE DOT WHITESPACE ID,以便识别出错误的串.但我们仅仅考虑词法分析的话希望屏蔽这些信息,这就是这个字段的由来.
+&emsp;&emsp;假设有两个字符串"NFA.states"和"NFA . states",如果忽略空格我们会得到两组一样的记号流:ID DOT ID.但显然后者语法上有错误,这时候我们希望交付给语法分析器这样一个记号流:ID WHITESPACE DOT WHITESPACE ID,以便识别出错误的串.但我们仅仅考虑词法分析的话希望屏蔽这些信息,这就是这个集合的由来.
 
 #### 错误信息
 
@@ -221,11 +221,11 @@ public static HashSet<String> shield = new HashSet<>(Arrays.asList("WHITESPACE",
 
 ![GLMk4I.png](https://s1.ax1x.com/2020/04/12/GLMk4I.png)
 
-&emsp; &emsp; 所以,正规式到NFA只是一个简单的表达式求值过程.有点特殊的是,.(连接符)是缺省的,故我们需手动补齐.例如abc我们将其补全为a.b.c
+&emsp; &emsp; 所以,正规式到NFA只是一个简单的表达式求值过程.有点特殊的是,.(连接符)是缺省的,故我们需手动补齐.例如"abc"我们将其补全为"a.b.c".
 
 #### 核心算法
 
-&emsp; &emsp;整个算法的主要流程图如下,图中省略了部分细节
+&emsp; &emsp;整个算法的主要流程图如下(图中省略了部分细节):
 
 ![GLlh9I.png](https://s1.ax1x.com/2020/04/12/GLlh9I.png)
 
@@ -268,7 +268,7 @@ public class Trans {
 
 &emsp;&emsp;可以将中缀表达式转换为后缀表达式,例如a+b\*转换为ab\*+,这样求值的过程会方便许多.但是两种算法本质是一样的,毕竟中缀表达式转后缀表达式也需要用到双栈.后缀表达式最大的好处在于模块化.
 
-&emsp; &emsp;如果阅读Thompson.java的源码,会发现其中实现交,并,闭包等的操作函数形式如下:
+&emsp; &emsp;如果阅读Thompson.java的源码,会发现其中实现交,并,闭包等操作的函数形式如下:
 
 ```java
     /**
@@ -314,7 +314,7 @@ public class Trans {
     }
 ```
 
-&emsp; &emsp;现在问题暴露出来了,使用接口的确能使我们的代码更抽象,但也给我们带来了很多麻烦.而且过多的依赖接口也说明你对算法的流程掌握不到位,你无法正确的选择数据结构.
+&emsp; &emsp;现在问题暴露出来了,使用接口的确能使我们的代码更抽象,但也给我们带来了很多麻烦.而且过多的依赖接口也说明你对算法的流程掌握不到位(除非你具有设计类库的能力),你无法正确的选择数据结构.
 
 ### NFA转DFA
 
@@ -410,7 +410,7 @@ public class DVertex {
 
 [![Ynv5OP.png](https://s1.ax1x.com/2020/05/08/Ynv5OP.png)](https://imgchr.com/i/Ynv5OP)
 
-&emsp; &emsp;可以发现,">|>="的MinDFA接受字符串">====".此时正规式已变为">|>=*"
+&emsp; &emsp;可以发现,">|>="的MinDFA接受字符串">====".此时正规式已变为">|>=*".
 
 &emsp; &emsp;也就是说,初次划分时需将接受不同串的终态划分至不同组,对非终态组的划分同上.
 
@@ -436,7 +436,7 @@ public class DVertex {
 
 #### 数据结构
 
-&emsp; &emsp;由于在最小化DFA过程中打乱了顺序,故我们需要记录初态
+&emsp; &emsp;由于在最小化DFA过程中打乱了顺序,故我们需要记录初态.
 
 ```java
 public class MinDFA {
@@ -473,7 +473,7 @@ public class MinDFA {
 
 4. 3=3+1-1=3(初态结点被合并)
 
-&emsp; &emsp;现在来解释前文提到的
+&emsp; &emsp;现在来解释前文提到的:
 
 > 请确保你的正规式最终生成的最小化DFA中,终态不包含初态.
 
@@ -483,7 +483,7 @@ public class MinDFA {
 
 &emsp; &emsp;可以发现0既是初态又是终态,而每个正规式的初态都会被合并到一个公共初态.发现问题了吗?合并后的MinDFA的初态是唯一的,而这个唯一的初态也是终态.在分组过程中我们似乎很难对其划分.这也是这条规定的由来.
 
-&emsp; &emsp;回头看一看我们的分组算法,对于上述例子,我们会直接得到一个终态分组{0}然后直接结束分组.得到的MinDFA没有初态,也就是说得到了一个死的DFA.最直接的影响就是这条正规式失效,但还有其他隐患.
+&emsp; &emsp;回头看一看我们的分组算法,对于上述例子,我们会直接得到一个终态分组{0},然后直接结束分组.得到的MinDFA没有初态,也就是说得到了一个死的DFA.最直接的影响就是这条正规式失效,但还有其他隐患(在驱动器算法中会指出).
 
 &emsp; &emsp;如果你定义了这样的正规式,可能会缺少终态但保留状态转移,可能会使程序崩溃.这取决于你的正规式内容,你的正规式位置以及其他的正规式.总而言之,请避免这样的行为.
 
@@ -546,13 +546,36 @@ public class MinDFA {
 
 &emsp; &emsp;假设只有正规式"+="中出现字符=,那么字符串"abc="会产生一个错误信息.因为smove(初态,=)=null.当然这样的这规式似乎很少,仔细想想C语言中似乎没有这么苛刻的词法要求.所以编译器的检错任务主要在语法分析上.
 
+&emsp; &emsp;继续看看这一条规定:
+
+> 请确保你的正规式最终生成的最小化DFA中,终态不包含初态.
+
+&emsp; &emsp;同样的,我们假设reg.txt中只有一条正规式.
+
+```textplain
+TEXT        a*
+```
+
+&emsp; &emsp;那么最终生成的DFA如下:
+
+![GvyyVO.png](https://s1.ax1x.com/2020/04/13/GvyyVO.png)
+
+&emsp; &emsp;现在0既是初态又是终态.假设需要识别串"bcd",识别步骤大概如下:
+
+1. 初始化curr为DFA初态,即curr=0,当前已识别的字符串为空串.
+2. 由于curr位于TEST终态,向记号流中添加TOKEN信息(TEST 空串).
+3. 由于smove(0,b)=null,报错.
+4. 识别下一字符,重复1-3.
+
+&emsp; &emsp;最终得到三个TOKEN(TEST 空串),这显然不是我们想要的,因此有了这条规定.
+
 ## 时间复杂度分析
 
 ### 汤普森算法
 
 &emsp; &emsp;设有n个正规式,每个正规式平均有k个字符分别用m1,m2...mk表示.字符间的操作考虑复杂度高的|操作.即正规式为m1|m2|m3...
 
-&emsp; &emsp;最终生成的NFA大概如下:(图中省略了部分信息)
+&emsp; &emsp;最终生成的NFA大概如下:(图中省略了部分信息).
 
 [![Yes3R0.png](https://s1.ax1x.com/2020/05/07/Yes3R0.png)](https://imgchr.com/i/Yes3R0)
 
@@ -578,11 +601,11 @@ public class MinDFA {
 
 &emsp; &emsp;生成一个结点后需要查找该结点是否存在,该部分时间复杂度为1+2+3+..k,k为DFA中节点数目,观察log中文件,我们不妨假设k=m/3.即时间复杂度为O(m^2).
 
-&emsp;&emsp;故最差时间复杂度为O(nm^2)+O(m^2),即O(nm^2)
+&emsp;&emsp;故最差时间复杂度为O(nm^2)+O(m^2),即O(nm^2).
 
 &emsp;&emsp;最优时间复杂度为只有连接操作,求空闭包时间复杂度为O(1).
 
-&emsp;&emsp;综上,NFA->DFA部分时间复杂度为O(nm^2)
+&emsp;&emsp;综上,NFA->DFA部分时间复杂度为O(nm^2).
 
 ### DFA->MinDFA
 
@@ -616,15 +639,16 @@ public class MinDFA {
 &emsp; &emsp;故最差时间复杂度为O(n^2)O(m)+O(n^2),即O(mn^2).
 
 &emsp; &emsp;当只有一个分组时时间复杂度最优,为O(n).
-综上,DFA->MinDFA时间复杂度为O(mn^2).
+
+&emsp; &emsp;综上,DFA->MinDFA时间复杂度为O(mn^2).
 
 ### 合并DFA
 
-&emsp; &emsp;该部分时间复杂度计算比较简单,设最终共有n个顶点,m条状态转移.时间复杂度为O(n)+O(m)
+&emsp; &emsp;该部分时间复杂度计算比较简单,设最终共有n个顶点,m条状态转移.时间复杂度为O(n)+O(m).
 
 ### 驱动器算法
 
-&emsp; &emsp;设源程序字符数目为n,则时间复杂度为O(n)
+&emsp; &emsp;设源程序字符数目为n,则时间复杂度为O(n).
 
 ### 小结
 
@@ -632,8 +656,8 @@ public class MinDFA {
 
 ## 实验收获体会
 
-1. 掌握生成词法分析器的方法，加深对词法分析原理的理解。
-2. 对自动机有了更深的认识,可以利用自动机实现更多应用(例如正则表达式)
+1. 掌握生成词法分析器的方法,加深对词法分析原理的理解.
+2. 对自动机有了更深的认识,可以利用自动机实现更多应用(例如正则表达式).
 
 ## 改进意见
 
