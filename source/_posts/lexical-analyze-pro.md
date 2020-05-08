@@ -82,8 +82,17 @@ categories: [技术,]
 NUMBER          {digit}+(.{digit}+|#)(E(\+|-|#){digit}+|#)
 ID              {letter}({letter}|{digit})*
 BRACKET         \(|\)|[|]|{|}
-SEPARATOR       ,|;
-OPERATOR        \+|-|\*|/|&|\||!|=|>=|<=|>|<|==|!=
+SEPARATOR       ,|;|:|?
+DOT             .
+ADD             \+
+SUB             -
+MUTI            \*
+DIV             /
+AND             &
+OR              \|
+NOT             !
+EQUAL           =
+COMPARE         >|<|>=|<=|!=
 WHITESPACE      (\s|\t|\r)+
 NEWLINE         (\n)+
 ```
@@ -94,11 +103,12 @@ NEWLINE         (\n)+
 
 ```java
     // 字母表
-    public static HashSet<Character> alphabets = new HashSet<Character>(Arrays.asList('0', '1',     '2', '3', '4', '5', '6',
+    public static HashSet<Character> alphabets = new HashSet<Character>(Arrays.asList('0', '1', 
+            '2', '3', '4', '5', '6',
             '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'd', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q',
             'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
             'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '_', '.', '+', '-', '*', '/', '&',
-            '!', '\\', '(', ')', '[', ']', '{', '}', '>', '<', '=', ';', ',', ' ', '\n', '#'));
+            '|','!', '\\', ':', '(', ')', '[', ']', '?', '{', '}', '>', '<', '=', ';', ',', ' ', '\n', '#'));
 ```
 
 #### 支持操作
@@ -133,13 +143,14 @@ NEWLINE         (\n)+
 
 ```java
     // 关键字
-    public static HashSet<String> keyWords = new HashSet<>(Arrays.asList("void", "char", "int", "float", "double",
+    public static HashSet<String> keyWords = new HashSet<>(Arrays.asList("void", "char", "int", 
+            "float", "double",
             "boolean", "short", "long", "signed", "unsigned", "struct", "union", "enum", "typedef", "sizeof", "auto",
             "static", "register", "extern", "const", "volatile", "return", "continue", "break", "goto", "if", "else",
             "switch", "case", "default", "for", "do", "while"));
 ```
 
-&emsp;&emsp;由于关键字与ID从词法上无法区分,所以定义一个关键字列表,在驱动器算法中利用这个集合来筛选关键字。
+&emsp;&emsp;由于关键字与ID从词法上无法区分,所以定义一个关键字列表,在驱动器算法中利用这个集合来筛选关键字.
 
 #### 正规式有关限制
 
@@ -393,6 +404,16 @@ public class DVertex {
 
 &emsp; &emsp;最终,我们直接以组号代表该小组.
 
+**由于本人疏忽,算法是存在问题的,不能直接将所有终态划分至一组**
+
+&emsp; &emsp;对于正规式">|>=",如果按照上述算法,得到的DFA与MinDFA如下:
+
+[![Ynv5OP.png](https://s1.ax1x.com/2020/05/08/Ynv5OP.png)](https://imgchr.com/i/Ynv5OP)
+
+&emsp; &emsp;可以发现,">|>="的MinDFA接受字符串">====".此时正规式已变为">|>=*"
+
+&emsp; &emsp;所幸,目前支持的正规式只有COMPARE会出现问题.
+
 &emsp; &emsp;主要流程图如下:
 
 [![YmsPts.png](https://s1.ax1x.com/2020/05/07/YmsPts.png)](https://imgchr.com/i/YmsPts)
@@ -493,7 +514,7 @@ public class MinDFA {
 
 [![YA5crV.png](https://s1.ax1x.com/2020/05/06/YA5crV.png)](https://imgchr.com/i/YA5crV)
 
-&emsp;&emsp;识别结束后还需根据前文提及的关键字列表来区分ID与关键字.
+&emsp;&emsp;识别结束后还需根据前文提及的关键字列表来区分ID与关键字.此外,还需记录行号与字符号,便于检查错误.
 
 #### 补充说明
 
@@ -518,6 +539,10 @@ public class MinDFA {
 [![Y9jFkF.png](https://s1.ax1x.com/2020/05/04/Y9jFkF.png)](https://imgchr.com/i/Y9jFkF)
 
 &emsp; &emsp;对于"123 abc"和"123abc",IDEA给出了一样的错误信息,这说明语法分析器在后续过程中能识别出这个错误.
+
+&emsp; &emsp;现在再来想想报错,假如我们输入了这样一个字符串"l[j;",程序会将其识别为四个TOKEN:ID BRACKET DOT SEPARATOR.同样的,这个错误应当交由语法分析器来检查.不难发现,这样的驱动器算法下,大多数的出错原因是某字符不属于字母表.
+
+&emsp; &emsp;假设只有正规式"+="中出现字符=,那么字符串"abc="会产生一个错误信息.因为smove(初态,=)=null.当然这样的这规式似乎很少,仔细想想C语言中似乎没有这么苛刻的词法要求.所以编译器的检错任务主要在语法分析上.
 
 ## 时间复杂度分析
 
