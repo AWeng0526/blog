@@ -412,6 +412,8 @@ public class DVertex {
 
 &emsp; &emsp;可以发现,">|>="的MinDFA接受字符串">====".此时正规式已变为">|>=*"
 
+&emsp; &emsp;也就是说,初次划分时需将接受不同串的终态划分至不同组,对非终态组的划分同上.
+
 &emsp; &emsp;所幸,目前支持的正规式只有COMPARE会出现问题.
 
 &emsp; &emsp;主要流程图如下:
