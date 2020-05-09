@@ -416,9 +416,11 @@ public class DVertex {
 
 &emsp; &emsp;所幸,目前支持的正规式只有COMPARE会出现问题.
 
-&emsp; &emsp;主要流程图如下:
+&emsp; &emsp;分组主要流程图如下:
 
 [![YmsPts.png](https://s1.ax1x.com/2020/05/07/YmsPts.png)](https://imgchr.com/i/YmsPts)
+
+分组结束后还需要更改状态转移,DFA中维护了一个辅助属性groups用于完成这部分工作.
 
 #### 实例分析
 
@@ -432,7 +434,9 @@ public class DVertex {
 
 4. 重新遍历,g1通过.由于2被划分到g3,3与1此时不同组,将其加入g4.得到g2={1},g3={2},g4={3}.
 
-5. 重新遍历,均通过,以组号作为该组代表编号,结束划分.
+5. 重新遍历,均通过,以组号作为该组代表编号,结束划分.分组情况为g0={4},g1={0},g2={1},g3={2},g4={3}.
+
+6. 更改状态转移,例如smove(1,a)=2应当修改为smove(g2,a)=g3.
 
 #### 数据结构
 
@@ -444,6 +448,10 @@ public class MinDFA {
     public int inital;// 初态
     public ArrayList<DVertex> Dstates = new ArrayList<>();
     public ArrayList<HashMap<Character, Integer>> transMaps = new ArrayList<>();
+    // 类似transitions,transMaps为每个顶点的状态转移映射的集合
+    public ArrayList<HashMap<Character, Integer>> transMaps;
+    // 每个DFA顶点对应的组号
+    public HashMap<Integer, Integer> groups;
 }
 ```
 
