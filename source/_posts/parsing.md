@@ -9,6 +9,8 @@ categories: [技术,]
 
 &emsp; &emsp;...
 
+<!---more--->
+
 ## 实验内容
 
 &emsp; &emsp;...
@@ -124,7 +126,6 @@ public class Parsing {
 
 ```java
     public static void main(String[] args) {
-
         String[] cfgPaths = { "cfg1.txt", "cfg2.txt" };
         String[] testPaths = { "test1.txt", "test2.txt" };
         String outputPaths[] = { "log1.txt", "log2.txt" };
@@ -155,76 +156,18 @@ public class CFG implements Cloneable {
 
 &emsp; &emsp;我们规定产生式结构描述如下:
 
-![Y2wjbQ.png](https://s1.ax1x.com/2020/05/17/Y2wjbQ.png)
+[![YRQyut.png](https://s1.ax1x.com/2020/05/17/YRQyut.png)](https://imgchr.com/i/YRQyut)
 
 ##### 数据结构
 
-```java
-public class CFG implements Cloneable {
-
-    // 非终结符
-    public Set<String> nonTerminals;
-    // 终结符
-    public Set<String> terminals;
-    // 开始符号
-    public String startSymbol;
-    // 产生式组的映射
-    public Map<String, ProductionGroup> productionGroupMap;
-}
-```
-
-```java
-/**
- * 一个产生式头对应的产生式组
- */
-public class ProductionGroup implements Cloneable {
-
-    // 该产生式组的产生式头部
-    public String productionHead;
-    // 该组是否有epsilon产生式
-    public boolean hasEpsilon;
-    // 为了输出效果，用LinkedHashSet
-    public Set<Production> productions = new LinkedHashSet<>();
-}
-```
-
-```java
-/**
- * 一条产生式, 由子项序列组成 每个产生式都有标记
- */
-public class Production implements Cloneable {
-    public static int globalIdCount = -1;
-
-    public int id;
-    public LinkedList<SubItem> subItems = new LinkedList<>();
-}
-```
-
-```java
-public class SubItem implements Cloneable {
-
-    public String value;
-    public SubItemType type;
-}
-```
-
-```java
-/**
- * 子项属性类型
- */
-public enum SubItemType {
-	nonTerminal,
-    terminal,
-    epsilon
-}
-```
+[![YRQ8j1.png](https://s1.ax1x.com/2020/05/17/YRQ8j1.png)](https://imgchr.com/i/YRQ8j1)
 
 &emsp; &emsp;可以看到,数据结构层数比较深.且为了降低时间复杂度,需要查找的集合都使用了Hash(后续算法也是).
 
 &emsp; &emsp;因此程序中大量的使用了lambda表达式,例如:
 
 ```java
-
+// 遍历产生式
 cfg.productionGroupMap.forEach((key, val) -> {
             // ...
             val.productions.forEach(production -> {
@@ -233,7 +176,45 @@ cfg.productionGroupMap.forEach((key, val) -> {
 });
 ```
 
-&emsp; &emsp;因此,系统环境要求JDK8及以上.
+&emsp; &emsp;如果不使用lambda表达,代码的形式为:
+
+```java
+    for (Map.Entry<String,ProductionGroup> entry : cfg.productionGroupMap.entrySet()) {
+        String key=entry.getKey();
+        ProductionGroup val=entry.getValue();
+        // ...
+        for (Production production : val.productions) {
+            // ...
+        }
+    }
+```
+
+&emsp; &emsp;如果使用JDK10及以上环境,可以使用var关键字简洁代码:
+
+```java
+    for (var entry : cfg.productionGroupMap.entrySet()) {
+        var key=entry.getKey();
+        var val=entry.getValue();
+        // ...
+        for (var production : val.productions) {
+            // ...
+        }
+    }
+```
+
+
+&emsp; &emsp;显然,使用lambda表达式最为简洁.因此,系统环境要求JDK8及以上.
+
+&emsp; &emsp;但由于lambda表达式只能访问final类型的外部变量,所以要对外部的基本类型做一点处理.
+
+&emsp; &emsp;例如在src/cfg/CFG.java中:
+
+```java
+    // 如果循环后，没有匹配成功(mayExist为false)，则代表没有左公因子了
+    boolean[] mayExist = { true };
+```
+
+&emsp; &emsp;标志位mayExist的类型为boolean[]而非boolen就是为了在后续的lambda表达式中进行访问/修改.
 
 #### 消除左递归
 
@@ -299,7 +280,6 @@ A``   -> e
 
 ```java
 public class FirstSet {
-
     public CFG cfg;
     public Map<String, Set<String>> firstSet;
     public boolean isUpdated = false;
@@ -314,9 +294,7 @@ public class FirstSet {
 
 ```java
 public class FollowSet {
-
     public static final String InputRightEndSym = "#";
-
     public CFG cfg;
     public Map<String, Set<String>> firstSet;
     public Map<String, Set<String>> followSet;
