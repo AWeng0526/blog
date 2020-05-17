@@ -145,7 +145,7 @@ public class CFG implements Cloneable {
 
 &emsp; &emsp;消除左递归及公共左因子过程中产生的新产生式左部会不断添加该后缀直至无重复名.
 
-#### 系统要求
+#### 系统环境要求
 
 &emsp; &emsp;JDK8及以上(支持lambda).
 
@@ -218,6 +218,22 @@ public enum SubItemType {
     epsilon
 }
 ```
+
+&emsp; &emsp;可以看到,数据结构层数比较深.且为了降低时间复杂度,需要查找的集合都使用了Hash(后续算法也是).
+
+&emsp; &emsp;因此程序中大量的使用了lambda表达式,例如:
+
+```java
+
+cfg.productionGroupMap.forEach((key, val) -> {
+            // ...
+            val.productions.forEach(production -> {
+                // ...
+            });
+});
+```
+
+&emsp; &emsp;因此,系统环境要求JDK8及以上.
 
 #### 消除左递归
 
@@ -370,15 +386,12 @@ A`                            bcA`                ε
 ```textplain
 测试用例:abcde#
 step      stack                    input                                   option                        info
-1         #S                       abcde#                                  POP(S),NEXT(ip)               匹配
 1         #S                       abcde#                                  POP(S),PUSH(aABe)             S->aABe
 2         #eBAa                    abcde#                                  POP(a),NEXT(ip)               匹配
-3         #eBA                     bcde#                                   POP(A),NEXT(ip)               匹配
 3         #eBA                     bcde#                                   POP(A),PUSH(bA`)              A->bA`
 4         #eBA`b                   bcde#                                   POP(b),NEXT(ip)               匹配
-5         #eBA`                    cde#                                    POP(A`),NEXT(ip)              匹配
 error:分析表[A`,c]结果为error,ip位置:3
-error:未抵达输入流结尾,当前ip:c ip位置:3
+error:未抵达输入流结尾,当前ip:c,ip位置:3
 ```
 
 ## 实验收获体会
