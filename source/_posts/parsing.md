@@ -35,6 +35,57 @@ categories: [技术,]
 
 &emsp; &emsp;Parsing.java&emsp; &emsp;主调函数
 
+## 调试过程和运行结果
+
+&emsp; &emsp;调用src/Parsing.java中main函数即可.输出结果存放于src/log目录中.
+
+&emsp; &emsp;src/Parsing.java中指定了CFG,测试,输出文本的文件夹路径:
+
+```java
+public class Parsing {
+    // 默认CFG路径
+    static String baseCfg = "src/data/cfg/";
+    // 默认测试文件路径
+    static String baseTest = "src/data/test/";
+    // 默认输出路径
+    static String baseOut = "src/log/";
+}
+```
+
+&emsp; &emsp;主调函数parse结构如下:
+
+```java
+    /**
+     * 语法分析主调函数
+     * 
+     * @param cfgPaths    CFG文件
+     * @param testPaths   测试文件
+     * @param outputPaths 输出文件
+     * @param num         分析数目
+     */
+    public static void parse(String[] cfgPaths, String[] testPaths, String[] outputPaths, int num) 
+```
+
+&emsp; &emsp;cfgPaths\[i]指定第i个文法.
+
+&emsp; &emsp;testPaths\[i]指定第i个文法的测试用例.
+
+&emsp; &emsp;outputPaths\[i]指定该测试用例的输出文件.
+
+&emsp; &emsp;num指定i的最大值.
+
+&emsp; &emsp;在main函数中有如下示例:
+
+```java
+    public static void main(String[] args) {
+        String[] cfgPaths = { "cfg1.txt", "cfg2.txt" };
+        String[] testPaths = { "test1.txt", "test2.txt" };
+        String outputPaths[] = { "log1.txt", "log2.txt" };
+
+        parse(cfgPaths, testPaths, outputPaths, 2);
+    }
+```
+
 ## 程序的主要部分及其功能说明
 
 ### 功能说明
@@ -43,7 +94,7 @@ categories: [技术,]
 
 1. 每个产生式独占一行.
 
-2. 推导符号为->,中间不允许有空格.
+2. 产生符号为->,中间不允许有空格.
 
 3. 所有符号以空格分隔.
 
@@ -51,9 +102,9 @@ categories: [技术,]
 
 5. #为输入结束符,不要使用#定义文法.
 
-6. 行首行尾无空格且文本中无空行.
+6. 文本中无空行.
 
-&emsp; &emsp;示例:
+&emsp; &emsp;**示例:**
 
 ```textplain
 L -> E ; L
@@ -82,56 +133,12 @@ F -> ( E )
 
 5. 行首行尾无空格且文本中无空行.
 
-&emsp; &emsp;示例:
+&emsp; &emsp;**示例:**
 
 ```textplain
 id + id * id ;
 id + id * num - num / id ;
 id + num ; num - id ; id * ( num ) ; num / ( id ) ;
-```
-
-#### 文件路径
-
-&emsp; &emsp;src/Parsing.java数据结构中指定了CFG,测试,输出文本的路径:
-
-```java
-public class Parsing {
-    // 默认CFG路径
-    static String baseCfg = "src/data/cfg/";
-    // 默认测试文件路径
-    static String baseTest = "src/data/test/";
-    // 默认输出路径
-    static String baseOut = "src/log/";
-}
-```
-
-&emsp; &emsp;主调函数parse结构如下:
-
-```java
-    /**
-     * 语法分析主调函数
-     * 
-     * @param cfgPaths    CFG文件
-     * @param testPaths   测试文件
-     * @param outputPaths 输出文件
-     * @param num         分析数目
-     */
-    public static void parse(String[] cfgPaths, String[] testPaths, String outputPaths[], int num) {
-    }
-```
-
-&emsp; &emsp;cfgPaths\[i]指定第i个文法,testPaths\[i]指定第i个文法的测试用例,outputPaths\[i]指定输出文件.num指定i的最大值.
-
-&emsp; &emsp;在main函数中有如下示例:
-
-```java
-    public static void main(String[] args) {
-        String[] cfgPaths = { "cfg1.txt", "cfg2.txt" };
-        String[] testPaths = { "test1.txt", "test2.txt" };
-        String outputPaths[] = { "log1.txt", "log2.txt" };
-
-        parse(cfgPaths, testPaths, outputPaths, 2);
-    }
 ```
 
 #### 后缀
@@ -156,13 +163,13 @@ public class CFG implements Cloneable {
 
 &emsp; &emsp;我们规定产生式结构描述如下:
 
-[![YRQyut.png](https://s1.ax1x.com/2020/05/17/YRQyut.png)](https://imgchr.com/i/YRQyut)
+[![YhsBc9.png](https://s1.ax1x.com/2020/05/18/YhsBc9.png)](https://imgchr.com/i/YhsBc9)
 
 ##### 数据结构
 
 [![YRQ8j1.png](https://s1.ax1x.com/2020/05/17/YRQ8j1.png)](https://imgchr.com/i/YRQ8j1)
 
-&emsp; &emsp;可以看到,数据结构层数比较深.且为了降低时间复杂度,需要查找的集合都使用了Hash(后续算法也是).
+&emsp; &emsp;可以看到,数据结构的层次比较深.而且为了降低时间复杂度,需要查找的集合都使用了Hash(后续算法也是).
 
 &emsp; &emsp;因此程序中大量的使用了lambda表达式,例如:
 
@@ -176,7 +183,7 @@ cfg.productionGroupMap.forEach((key, val) -> {
 });
 ```
 
-&emsp; &emsp;如果不使用lambda表达,代码的形式为:
+&emsp; &emsp;如果不使用lambda表达式,代码的形式为:
 
 ```java
     for (Map.Entry<String,ProductionGroup> entry : cfg.productionGroupMap.entrySet()) {
@@ -271,7 +278,6 @@ A``   -> d
 A``   -> e
 ```
 
-
 #### FIRST集
 
 &emsp; &emsp;由于产生式非严格有序,采用递归求解FIRST集.
@@ -328,6 +334,39 @@ A    :[d]
 B    :[e]
 A`   :[d]
 ```
+
+##### 补充说明
+
+&emsp; &emsp;对于非LL(1)文法,程序可能死递归.以教材的文法G3.10'为例:
+
+``` textplain
+S  -> i C t S S'
+S' -> e S
+    | ε 
+C  -> b
+
+教材给出的FOLLOW集:
+FOLLOW(S)  = {#,e}
+FOLLOW(S') = {#,e}
+```
+
+&emsp; &emsp;这里给出程序形成死递归的步骤:
+
+1. 求解FOLLOW(S).
+
+2. 根据S' -> e S,将FOLLOW(S')加入FOLLOW(S).
+
+3. 尚未求得FOLLOW(S'),递归求解FOLLOW(S').
+
+4. 根据S -> i C t S S',将FOLLOW(S)添加到FOLLOW(S').
+
+5. 回到步骤1,形成死递归.
+
+&emsp; &emsp;消除死递归的方法也很简单,设置一个递归层数上限值(这个值跟产生式组数目相关)/给每个产生式组打上标记(类似DFS检测环).
+
+&emsp;&emsp;更好一点的做法是构造依赖树,检查有无循环依赖,且依赖树在消除文法二义性中也用得到.
+
+&emsp;&emsp;但由于实验要求明确输入为LL(1)文法,故程序未作处理.
 
 #### 构造预测分析表
 
