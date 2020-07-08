@@ -1,12 +1,12 @@
 ---
-title: pickApple
+title: 一道字节面试题
 date: 2020-07-08 14:08:45
 tags:
 ---
 
-## 一道字节面试题
+朋友前两天的字节后端实习二面真题,本人回答链接:https://leetcode-cn.com/circle/article/NA6h7i/
 
-朋友前两天投的字节Java实习真题,本人回答链接:https://leetcode-cn.com/circle/article/NA6h7i/
+<!-----more---->
 
 ### 题目描述
 
