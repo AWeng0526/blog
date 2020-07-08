@@ -8,7 +8,9 @@ categories: [技术,]
 ## 实验目的
 
 1. 掌握生成语法分析器的方法，加深对语法分析原理的理解。
+
 2. 掌握设计、编制并调试语法分析程序的思想和方法。
+
 3. 本实验是高级语言程序设计、数据结构和编译原理中词法分析原理等知识的综合。
 
 <!---more--->
@@ -16,17 +18,20 @@ categories: [技术,]
 ## 实验内容
 
 1. 选择一种熟悉的高级语言（如C语言，C++，VB或VC等），设计、编写一个语法分析子程序。
+
 2. 要求如下：
 
 
 &emsp; &emsp;输入：
 
 &emsp; &emsp;&emsp; &emsp;无二义性的上下文无关文法G.
+
 &emsp; &emsp;&emsp; &emsp;一段词法分析的输出记号流.
 
 &emsp; &emsp;输出：
 
 &emsp; &emsp;&emsp; &emsp;如果分析成功：一棵构造好的语法树.
+
 &emsp; &emsp;&emsp; &emsp;如果分析失败：抛出语法错误.
 
 &emsp; &emsp;要求：
@@ -61,6 +66,8 @@ categories: [技术,]
 &emsp; &emsp;调用src/Parsing.java中main函数即可.输出结果存放于src/log目录中.
 
 &emsp; &emsp;src/Parsing.java中指定了CFG,测试,输出文本的文件夹路径:
+
+&emsp; &emsp;请使用IDEA/ECLIPSE/VS CODE等IDE查看输出结果,不要使用记事本查看输出结果(格式会乱).
 
 ```java
 public class Parsing {
@@ -246,7 +253,7 @@ cfg.productionGroupMap.forEach((key, val) -> {
 
 #### 消除左递归
 
-&emsp; &emsp;算法与书上相同,不再赘述.
+&emsp; &emsp;算法与教材相同,不再赘述.
 
 ##### 示例
 
@@ -274,7 +281,7 @@ A`    -> ε
 
 #### 消除公共左因子
 
-&emsp; &emsp;算法与书上相同,不再赘述.
+&emsp; &emsp;算法与教材相同,不再赘述.
 
 ##### 示例
 
@@ -301,7 +308,7 @@ A``   -> e
 
 #### FIRST集
 
-&emsp; &emsp;由于产生式非严格有序,采用递归求解FIRST集.
+&emsp; &emsp;由于产生式非严格有序,采用递归求解FIRST集.算法与教材相同,不再赘述.
 
 ##### 数据结构
 
@@ -315,7 +322,7 @@ public class FirstSet {
 
 #### FOLLOW集
 
-&emsp; &emsp;由于产生式非严格有序,采用递归求解FOLLOW集.
+&emsp; &emsp;由于产生式非严格有序,采用递归求解FOLLOW集.算法与教材相同,不再赘述.
 
 ##### 数据结构
 
@@ -421,16 +428,7 @@ A`                            bcA`                ε
 
 ##### 示例
 
-```textplain
-测试用例:abcde#
-step      stack                    input                                   option                        info
-1         #S                       abcde#                                  POP(S),PUSH(aABe)             S->aABe
-2         #eBAa                    abcde#                                  POP(a),NEXT(ip)               匹配
-3         #eBA                     bcde#                                   POP(A),PUSH(bA`)              A->bA`
-4         #eBA`b                   bcde#                                   POP(b),NEXT(ip)               匹配
-error:分析表[A`,c]结果为error,ip位置:3
-error:未抵达输入流结尾,当前ip:c,ip位置:3
-```
+[![tImGEF.png](https://s1.ax1x.com/2020/06/09/tImGEF.png)](https://imgchr.com/i/tImGEF)
 
 ## 实验收获体会
 
