@@ -60,9 +60,9 @@ tags:
 
 ![UVmqJK.png](https://s1.ax1x.com/2020/07/08/UVmqJK.png)
 
-查找结果i=2,代表左边的果树上苹果数目不足12颗,需要遍历每颗果树计算总和.而对于右边的果树,只需做一个乘法即可.
+查找结果i=2,代表左边的果树上苹果数目不足12颗,需要遍历每棵果树计算总和.而对于右边的果树,只需做一个乘法即可.
 
-即10+10+(2-2+1)*12=32,但这32课苹果里包括了之前摘的,需要把之前摘的所有苹果数目减去.最终得到32-15=17颗苹果.
+即10+10+(2-2+1)*12=32,但这32棵苹果里包括了之前摘的,需要把之前摘的所有苹果数目减去.最终得到32-15=17颗苹果.
 
 还需将start更新为2,原因在于,第三天采摘数目大于等于12,我们可以缩小查找范围.
 
@@ -116,13 +116,13 @@ class Solution {
 
 ### 时间复杂度
 
-这里我们假设有n颗树,k天,每次更新start都使得查找范围缩小一半(后面会解释).
+这里我们假设有n棵树,k天,每次更新start都使得查找范围缩小一半(后面会解释).
 
-- 第一天需要在n个果树中二分查找,时间复杂度为log n.需要计算n/2颗果树上的苹果总和,时间复杂度为 n/2.
+- 第一天需要在n个果树中二分查找,时间复杂度为log n.需要计算n/2棵果树上的苹果总和,时间复杂度为 n/2.
 
-- 第一天需要在n/2个果树中二分查找,时间复杂度为log n/2.需要计算n/4颗果树上的苹果总和,时间复杂度为 n/4.
+- 第一天需要在n/2个果树中二分查找,时间复杂度为log n/2.需要计算n/4棵果树上的苹果总和,时间复杂度为 n/4.
 
-- 第k天需要在n/(2^k-1)个果树中二分查找,时间复杂度为log n/(2^k-1).需要计算n/(2^k)颗果树上的苹果总和,时间复杂度为 n/(2^k).
+- 第k天需要在n/(2^k-1)个果树中二分查找,时间复杂度为log n/(2^k-1).需要计算n/(2^k)棵果树上的苹果总和,时间复杂度为 n/(2^k).
 
 最终的时间复杂度为 log n + n/2 + log n/2 + n/4 ...... + log n/(2^k-1) + n/(2^k)
 
@@ -145,3 +145,56 @@ class Solution {
 [![UVQcgf.png](https://s1.ax1x.com/2020/07/08/UVQcgf.png)](https://imgchr.com/i/UVQcgf)
 
 综上,情况1与情况2出现的概率相等,故取平均值,设定每次缩小一半.
+
+### 优化
+
+可以使用前缀和数组进行优化,这样无需去扫描苹果数不足的果树.
+
+#### 代码
+
+```java
+import java.util.Arrays;
+
+class Solution {
+    public static void main(String[] args) {
+        int[] ans = new Solution().pickApple(new int[] { 10, 20, 10 }, new int[] { 5, 7, 2 });
+        System.out.println(Arrays.toString(ans));
+    }
+
+    public int[] pickApple(int[] appleNum, int[] pickNum) {
+        Arrays.sort(appleNum);
+        // 第n天要摘的果子数
+        int pickSum = 0;
+        // 前面n天的苹果数
+        int prevSum = 0;
+        int start = 0;
+        int n = appleNum.length;
+        int days = pickNum.length;
+        int[] ans = new int[days];
+        int[] prefix = new int[n + 1];
+        prefix[0] = 0;
+        for (int i = 1; i <= n; i++) {
+            prefix[i] = prefix[i - 1] + appleNum[i - 1];
+        }
+        for (int i = 0; i < days; i++) {
+            int todayAppleSum = 0;
+            pickSum += pickNum[i];
+            int idx = Arrays.binarySearch(appleNum, start, n - 1, pickSum);
+            if (idx < 0) {
+                idx = -idx - 1;
+            }
+            start = idx;
+            todayAppleSum += (n - idx) * pickSum;
+            todayAppleSum += prefix[idx];
+            todayAppleSum -= prevSum;
+            prevSum += todayAppleSum;
+            ans[i] = todayAppleSum;
+        }
+        return ans;
+    }
+}
+```
+
+#### 时间复杂度
+
+通过前面的分析很容易的可以得出时间复杂度为 log n + log n/2 + ... + log n/(2^k-1)
